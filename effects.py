@@ -6,13 +6,18 @@ def selectCard(source, target):
     card = next(filter(lambda card: card.name == target, source), None)
     return card
 
+def selectDisposableCard(source):
+    card = next(filter(lambda card: card.disposable == True, source), None)
+    return card
+
 def playCard(source, dest, card):
     source.remove(card)
     dest.append(card)
 
 def drawEffect(source, dest, number):
-    if (number > len(source)):
-        number = len(source)
+    for i in source:
+        number_in_source += 1
+    number = min([number_in_source, number])
 
     for i in range(0, number):
         card = source.pop()
@@ -55,10 +60,11 @@ def shuffleEffect(source, dest):
         dest.append(card)
     random.shuffle(dest)
 
-def shuffleCard(source, dest, card):
+def shuffleCard(source, dest, card): #################### ask jeremy
     card = selectCard(source, card)
     source.remove(card)
-    dest.appen(card)
+    dest.append(card)
+
 
 def chooseEffect(source, number, attr):
 

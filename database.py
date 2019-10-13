@@ -25,7 +25,7 @@ class Card():
        return self._name
 
 class Pokemon(Card):
-    def __init__(self, name, type, consCheck, stage, HP, weakness, resistance, retreat, prizeLoss):
+    def __init__(self, name, type, consCheck, stage, HP, weakness, resistance, retreat, prizeLoss, disposable):
         super().__init__(name, consCheck)
         self._cardType = "Pokemon"
         self._type = type
@@ -36,6 +36,8 @@ class Pokemon(Card):
         self._retreat = retreat
         self._prizeLoss = prizeLoss
         self._attached = []
+        self._disposable = disposable
+
 
     @property
     def cardType(self):
@@ -73,6 +75,10 @@ class Pokemon(Card):
     def attached(self):
         return self._attached
 
+    @property
+    def disposable(self):
+        return self._disposable
+
 class Trainer(Card):
     def __init__(self, name, consCheck):
         super().__init__(name, consCheck)
@@ -80,7 +86,7 @@ class Trainer(Card):
     pass
 
 class Item(Trainer):
-    def __init__(self, name, consCheck, cardDraw, thinDraw, thinCheck, effects, priority):
+    def __init__(self, name, consCheck, cardDraw, thinDraw, thinCheck, effects, priority, disposable):
         super().__init__(name, consCheck)
         self._cardType = "Item"
         self._cardDraw = cardDraw
@@ -88,6 +94,7 @@ class Item(Trainer):
         self._thinCheck = thinCheck
         self._effects = effects
         self._priority = priority
+        self._disposable = disposable
 
     @property
     def cardType(self):
@@ -113,18 +120,23 @@ class Item(Trainer):
     def priority(self):
         return self._priority
 
+    @property
+    def disposable(self):
+        return self._disposable
+
     def play(effects):
         for condition in effects:
             pass
 
 class Supporter(Trainer):
-    def __init__(self, name, consCheck, cardDraw, thinDraw, thinCheck, priority):
+    def __init__(self, name, consCheck, cardDraw, thinDraw, thinCheck, priority, disposable):
         super().__init__(name, consCheck)
         self._cardType = "Supporter"
         self._cardDraw = cardDraw
         self._thinDraw = thinDraw
         self._thinCheck = thinCheck
         self._priority = priority
+        self._disposable = disposable
 
     @property
     def cardType(self):
@@ -146,15 +158,19 @@ class Supporter(Trainer):
     def priority(self):
         return self._priority
 
+    @property
+    def disposable(self):
+        return self._disposable
+
 class Stadium(Trainer):
-    def __init__(self, name, consCheck, cardDraw, thinDraw, thinCheck, priority):
+    def __init__(self, name, consCheck, cardDraw, thinDraw, thinCheck, priority, disposable):
         super().__init__(name, consCheck)
         self._cardType = "Stadium"
         self._cardDraw = cardDraw
         self._thinDraw = thinDraw
         self._thinCheck = thinCheck
         self._priority = priority
-
+        self._disposable = disposable
     @property
     def cardType(self):
         return self._cardType
@@ -175,14 +191,23 @@ class Stadium(Trainer):
     def priority(self):
         return self._priority
 
+    @property
+    def disposable(self):
+        return self._disposable
+
 class Energy(Card):
-    def __init__(self, name, consCheck):
+    def __init__(self, name, consCheck, disposable):
         super().__init__(name, consCheck)
         self._cardType = "Energy"
+        self._disposable = disposable
 
     @property
     def cardType(self):
         return self._cardType
+
+    @property
+    def disposable(self):
+        return self._disposable
 
 class Field():
     def __init__(self, active, bench, oppActive, oppBench, activeStadium):
@@ -291,66 +316,66 @@ class Field():
 # ]
 
 MewMewWorlds = [
-    Pokemon("Mewtwo & Mew-GX", "Psychic", False, "Basic", 270, "Psychic", None, 2, 3),
-    Pokemon("Mewtwo & Mew-GX", "Psychic", False, "Basic", 270, "Psychic", None, 2, 3),
-    Pokemon("Mewtwo & Mew-GX", "Psychic", False, "Basic", 270, "Psychic", None, 2, 3),
-    Pokemon("Mewtwo & Mew-GX", "Psychic", False, "Basic", 270, "Psychic", None, 2, 3),
-    Pokemon("Dedenne-GX", "Lightning", True, "Basic", 160, "Fighting", None, 1, 2),
-    Pokemon("Dedenne-GX", "Lightning", True, "Basic", 160, "Fighting", None, 1, 2),
-    Pokemon("Reshiram & Charizard-GX", "Fire", False, "Basic", 270, "Water", None, 3, 3),
-    Pokemon("Espeon & Deoxys-GX", "Psychic", False, "Basic", 260, "Psychic", None, 2, 3),
-    Pokemon("Solgaleo-GX", "Metal", False, "Stage 2", 250, "Fire", "Psychic", 3, 2),
-    Pokemon("Naganadel-GX", "Dragon", False, "Stage 1", 210, "Fairy", None, 1, 2),
-    Pokemon("Latios-GX", "Psychic", False, "Basic", 170, "Psychic", None, 0, 2),
-    Pokemon("Jirachi-GX", "Psychic", False, "Basic", 160, "Psychic", None, 1, 2),
-    Pokemon("Mew", "Psychic", False, "Basic", 60, "Psychic", None, 1, 1),
-    Pokemon("Mimikyu", "Psychic", False, "Basic", 70, "Psychic", None, 1, 1),
-    Supporter("Welder", True, 3, 0, True, 4),
-    Supporter("Welder", True, 3, 0, True, 4),
-    Supporter("Welder", True, 3, 0, True, 4),
-    Supporter("Welder", True, 3, 0, True, 4),
-    Supporter("Lillie", True, 8, 0, True, 2),
-    Supporter("Lillie", True, 8, 0, True, 2),
-    Supporter("Lillie", True, 8, 0, True, 2),
-    Supporter("Lillie", True, 8, 0, True, 2),
-    Item("Cherish Ball", True, 0, 1, False, None, 5),
-    Item("Cherish Ball", True, 0, 1, False, None, 5),
-    Item("Cherish Ball", True, 0, 1, False, None, 5),
-    Item("Cherish Ball", True, 0, 1, False, None, 5),
-    Item("Acro Bike", False, 1, 1, True, None, 8),
-    Item("Acro Bike", False, 1, 1, True, None, 8),
-    Item("Acro Bike", False, 1, 1, True, None, 8),
-    Item("Acro Bike", False, 1, 1, True, None, 8),
-    Item("Mysterious Treasure", False, 0, 1, False, None, 7),
-    Item("Mysterious Treasure", False, 0, 1, False, None, 7),
-    Item("Mysterious Treasure", False, 0, 1, False, None, 7),
-    Item("Mysterious Treasure", False, 0, 1, False, None, 7),
-    Item("Custom Catcher", False, 3, 0, True, None, 1),
-    Item("Custom Catcher", False, 3, 0, True, None, 1),
-    Item("Custom Catcher", False, 3, 0, True, None, 1),
-    Item("Custom Catcher", False, 3, 0, True, None, 1),
-    Stadium("Viridian Forest", False, 0, 1, True, 6),
-    Stadium("Viridian Forest", False, 0, 1, True, 6),
-    Stadium("Viridian Forest", False, 0, 1, True, 6),
-    Stadium("Viridian Forest", False, 0, 1, True, 6),
-    Item("Escape Board", False, 0, 0, False, None, 3),
-    Item("Escape Board", False, 0, 0, False, None, 3),
-    Item("Escape Board", False, 0, 0, False, None, 3),
-    Item("Reset Stamp", False, 0, 0, False, None, 2),
-    Item("Reset Stamp", False, 0, 0, False, None, 2),
-    Item("Reset Stamp", False, 0, 0, False, None, 2),
-    Energy("Fire", False),
-    Energy("Fire", False),
-    Energy("Fire", False),
-    Energy("Fire", False),
-    Energy("Fire", False),
-    Energy("Fire", False),
-    Energy("Fire", False),
-    Energy("Fire", False),
-    Energy("Psychic", False),
-    Energy("Psychic", False),
-    Energy("Psychic", False),
-    Energy("Psychic", False),
+    Pokemon("Mewtwo & Mew-GX", "Psychic", False, "Basic", 270, "Psychic", None, 2, 3, False),
+    Pokemon("Mewtwo & Mew-GX", "Psychic", False, "Basic", 270, "Psychic", None, 2, 3, False),
+    Pokemon("Mewtwo & Mew-GX", "Psychic", False, "Basic", 270, "Psychic", None, 2, 3, False),
+    Pokemon("Mewtwo & Mew-GX", "Psychic", False, "Basic", 270, "Psychic", None, 2, 3, False),
+    Pokemon("Dedenne-GX", "Lightning", True, "Basic", 160, "Fighting", None, 1, 2, False),
+    Pokemon("Dedenne-GX", "Lightning", True, "Basic", 160, "Fighting", None, 1, 2, False),
+    Pokemon("Reshiram & Charizard-GX", "Fire", False, "Basic", 270, "Water", None, 3, 3, True),
+    Pokemon("Espeon & Deoxys-GX", "Psychic", False, "Basic", 260, "Psychic", None, 2, 3, True),
+    Pokemon("Solgaleo-GX", "Metal", False, "Stage 2", 250, "Fire", "Psychic", 3, 2, True),
+    Pokemon("Naganadel-GX", "Dragon", False, "Stage 1", 210, "Fairy", None, 1, 2, True),
+    Pokemon("Latios-GX", "Psychic", False, "Basic", 170, "Psychic", None, 0, 2, True),
+    Pokemon("Jirachi-GX", "Psychic", False, "Basic", 160, "Psychic", None, 1, 2, False),
+    Pokemon("Mew", "Psychic", False, "Basic", 60, "Psychic", None, 1, 1, False),
+    Pokemon("Mimikyu", "Psychic", False, "Basic", 70, "Psychic", None, 1, 1, False),
+    Supporter("Welder", True, 3, 0, True, 4, False),
+    Supporter("Welder", True, 3, 0, True, 4, False),
+    Supporter("Welder", True, 3, 0, True, 4, False),
+    Supporter("Welder", True, 3, 0, True, 4, False),
+    Supporter("Lillie", True, 8, 0, True, 2, False),
+    Supporter("Lillie", True, 8, 0, True, 2, False),
+    Supporter("Lillie", True, 8, 0, True, 2, False),
+    Supporter("Lillie", True, 8, 0, True, 2, False),
+    Item("Cherish Ball", True, 0, 1, False, None, 5, False),
+    Item("Cherish Ball", True, 0, 1, False, None, 5, False),
+    Item("Cherish Ball", True, 0, 1, False, None, 5, False),
+    Item("Cherish Ball", True, 0, 1, False, None, 5, False),
+    Item("Acro Bike", False, 1, 1, True, None, 8, False),
+    Item("Acro Bike", False, 1, 1, True, None, 8, False),
+    Item("Acro Bike", False, 1, 1, True, None, 8, False),
+    Item("Acro Bike", False, 1, 1, True, None, 8, False),
+    Item("Mysterious Treasure", False, 0, 1, False, None, 7, False),
+    Item("Mysterious Treasure", False, 0, 1, False, None, 7, False),
+    Item("Mysterious Treasure", False, 0, 1, False, None, 7, False),
+    Item("Mysterious Treasure", False, 0, 1, False, None, 7, False),
+    Item("Custom Catcher", False, 3, 0, True, None, 1, True),
+    Item("Custom Catcher", False, 3, 0, True, None, 1, True),
+    Item("Custom Catcher", False, 3, 0, True, None, 1, True),
+    Item("Custom Catcher", False, 3, 0, True, None, 1, True),
+    Stadium("Viridian Forest", False, 0, 1, True, 6, True),
+    Stadium("Viridian Forest", False, 0, 1, True, 6, True),
+    Stadium("Viridian Forest", False, 0, 1, True, 6, True),
+    Stadium("Viridian Forest", False, 0, 1, True, 6, True),
+    Item("Escape Board", False, 0, 0, False, None, 3, True),
+    Item("Escape Board", False, 0, 0, False, None, 3, True),
+    Item("Escape Board", False, 0, 0, False, None, 3, True),
+    Item("Reset Stamp", False, 0, 0, False, None, 2, True),
+    Item("Reset Stamp", False, 0, 0, False, None, 2, True),
+    Item("Reset Stamp", False, 0, 0, False, None, 2, True),
+    Energy("Fire", False, True),
+    Energy("Fire", False, True),
+    Energy("Fire", False, True),
+    Energy("Fire", False, True),
+    Energy("Fire", False, True),
+    Energy("Fire", False, True),
+    Energy("Fire", False, True),
+    Energy("Fire", False, True),
+    Energy("Psychic", False, True),
+    Energy("Psychic", False, True),
+    Energy("Psychic", False, True),
+    Energy("Psychic", False, True),
 ]
 
 ################################################################################
